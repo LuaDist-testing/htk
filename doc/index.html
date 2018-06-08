@@ -39,12 +39,14 @@ particularities: all pre-defined form-field values are set with
 The 
 <B>current version</B>
  of HTK source code can be freely downloaded from the following link:
-<UL><LI><A href="htk.lua">HTK 3.2.0</A></LI></UL>
+<UL><LI><A href="htk.lua">HTK 3.3.0</A></LI></UL>
+This version is just a reimplementation to make it compatible with all Lua 5.X versions.
+<BR>
 You can install it in your LUA_PATH or using 
-<A href="http://http://www.luarocks.org/">LuaRocks</A>
+<A href="http://www.luarocks.org/">LuaRocks</A>
 .
 Older versions can be downloaded too:
-<UL><LI><A href="htk-3.1.1.lua">HTK 3.1.1</A></LI><LI><A href="htk-3.1.lua">HTK 3.1</A></LI><LI><A href="htk-3.0.3.lua">HTK 3.0.3</A><SMALL> (Lua 5.1)</SMALL></LI><LI><A href="htk-3.0.2.lua">HTK 3.0.2</A></LI><LI><A href="htk-3.0.1.lua">HTK 3.0.1</A></LI><LI><A href="htk-3.0.lua">HTK 3.0</A><SMALL> (Lua 5.0)</SMALL></LI><LI><A href="htk-2.0.4.lua">HTK 2.0.4</A></LI><LI><A href="htk-2.0.3.lua">HTK 2.0.3</A></LI><LI><A href="htk-2.0.2.lua">HTK 2.0.2</A></LI><LI><A href="htk-2.0.1.lua">HTK 2.0.1</A></LI><LI><A href="htk-2.0.lua">HTK 2.0</A></LI><LI><A href="htk-1.2.lua">HTK 1.2</A></LI><LI><A href="htmltoolkit.lua">HTMLToolkit</A></LI></UL>
+<UL><LI><A href="htk-3.2.0.lua">HTK 3.2.0</A></LI><LI><A href="htk-3.1.1.lua">HTK 3.1.1</A></LI><LI><A href="htk-3.1.lua">HTK 3.1</A></LI><LI><A href="htk-3.0.3.lua">HTK 3.0.3</A><SMALL> (Lua 5.1)</SMALL></LI><LI><A href="htk-3.0.2.lua">HTK 3.0.2</A></LI><LI><A href="htk-3.0.1.lua">HTK 3.0.1</A></LI><LI><A href="htk-3.0.lua">HTK 3.0</A><SMALL> (Lua 5.0)</SMALL></LI><LI><A href="htk-2.0.4.lua">HTK 2.0.4</A></LI><LI><A href="htk-2.0.3.lua">HTK 2.0.3</A></LI><LI><A href="htk-2.0.2.lua">HTK 2.0.2</A></LI><LI><A href="htk-2.0.1.lua">HTK 2.0.1</A></LI><LI><A href="htk-2.0.lua">HTK 2.0</A></LI><LI><A href="htk-1.2.lua">HTK 1.2</A></LI><LI><A href="htmltoolkit.lua">HTMLToolkit</A></LI></UL>
 <H2><A name="ref">Reference</A></H2>
 HTK constructors can be divided in some groups:
 <UL><LI><A href="#virtual">Virtual</A></LI><LI><A href="#input">Input</A></LI><LI><A href="#container">Container</A></LI><LI><A href="#compound">Compound</A></LI><LI><A href="#table_cell">Table cells</A></LI><LI><A href="#table_row">Table rows</A></LI><LI><A href="#class_defaults">Default class attribute</A></LI></UL>
@@ -265,7 +267,7 @@ The source code of this page can be downloaded by clicking
 <A href="index.lua">here</A>
 <P>
 <H2><A name="news">News</A></H2>
-<UL><LI>3.2.0 [08/nov/2010] Improving option-element attribute definition<BR>Deployment via LuaRocks</LI><LI>3.1.1 [11/may/2007] Bug fix: multiple selected values in checkboxes</LI><LI>3.1 [09/apr/2007] Deprecated constructions removed</LI><LI>3.0.3 [30/may/2006] New version updated to run with Lua 5.1</LI><LI>3.0.2 [25/jan/2006] Bug fix: boolean value in attributes</LI><LI>3.0.1 [24/jan/2006] Using <CODE>module</CODE> function</LI><LI>3.0 [13/out/2003] New version updated to run with Lua 5.0</LI><LI>2.0.4 [21/aug/2003] Bug fix (revisited): multiple selected values</LI><LI>2.0.3 [25/jul/2002] New feature: <A href="#class_defaults">default value for class attribute</A></LI><LI>2.0.2 [25/apr/2002] Bug fix: multiple selected values</LI><LI>2.0.1 [24/oct/2001] Bug fix: closing tags</LI><LI>2.0 [15/oct/2001] Version 2.0 released</LI><LI>1.2 [28/sep/2001] Conforming to <A href="http://www.lua.org/notes/ltn007.html">LTN 007 - Modules & Packages</A></LI><LI>[26/mar/2001] Bug fix on <I>Table Rows</I></LI></UL>
+<UL><LI>3.3.0 [20/dec/2011] New version updated to run for all Lua 5.X versions.</LI><LI>3.2.0 [08/nov/2010] Improving option-element attribute definition<BR>Deployment via LuaRocks</LI><LI>3.1.1 [11/may/2007] Bug fix: multiple selected values in checkboxes</LI><LI>3.1 [09/apr/2007] Deprecated constructions removed</LI><LI>3.0.3 [30/may/2006] New version updated to run with Lua 5.1</LI><LI>3.0.2 [25/jan/2006] Bug fix: boolean value in attributes</LI><LI>3.0.1 [24/jan/2006] Using <CODE>module</CODE> function</LI><LI>3.0 [13/out/2003] New version updated to run with Lua 5.0</LI><LI>2.0.4 [21/aug/2003] Bug fix (revisited): multiple selected values</LI><LI>2.0.3 [25/jul/2002] New feature: <A href="#class_defaults">default value for class attribute</A></LI><LI>2.0.2 [25/apr/2002] Bug fix: multiple selected values</LI><LI>2.0.1 [24/oct/2001] Bug fix: closing tags</LI><LI>2.0 [15/oct/2001] Version 2.0 released</LI><LI>1.2 [28/sep/2001] Conforming to <A href="http://www.lua.org/notes/ltn007.html">LTN 007 - Modules & Packages</A></LI><LI>[26/mar/2001] Bug fix on <I>Table Rows</I></LI></UL>
 <P>
 <H2><A name="implementation">Implementation</A></H2>
 Originally, HTK was based on 
@@ -331,6 +333,6 @@ making it easier to maintain, despite its complexity.
 <HR>
 <TABLE align="center">
 <TR><TD align="center" class="common"><IMG alt="Created with Vim" src="vim.png"></TD><TD align="center" class="common"> and </TD><TD align="center" class="common"><IMG alt="Best Viewed on Any Browser" src="anybrowser.png"></TD></TR>
-<TR><TD align="center" colspan="3" class="common"><SMALL>Last modified by Tomás on <BR>Mon Nov  8 15:48:13 2010</SMALL></TD></TR>
+<TR><TD align="center" colspan="3" class="common"><SMALL>Last modified by Tomás on <BR>Tue Dec 20 18:08:20 2011</SMALL></TD></TR>
 </TABLE>
 </BODY></HTML>

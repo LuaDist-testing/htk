@@ -4,7 +4,7 @@ local gsub = gsub or string.gsub
 local dostring = dostring or function (s) return assert(loadstring(s))() end
 local date = date or os.date
 
-require"htk"
+htk = require"htk"
 
 function do_ex (s)
 	local ss = dostring ("return "..s)
@@ -127,12 +127,15 @@ particularities: all pre-defined form-field values are set with ]],
 		"The ",
 		htk.B { "current version" },
 		" of HTK source code can be freely downloaded from the following link:",
-		htk.UL { htk.LI { htk.A { href = "htk.lua", "HTK 3.2.0", }, },},
+		htk.UL { htk.LI { htk.A { href = "htk.lua", "HTK 3.3.0", }, },},
+		"This version is just a reimplementation to make it compatible with all Lua 5.X versions.",
+		htk.BR {},
 		"You can install it in your LUA_PATH or using ",
-		htk.A { href = "http://http://www.luarocks.org/", "LuaRocks", },
+		htk.A { href = "http://www.luarocks.org/", "LuaRocks", },
 		".",
 		"Older versions can be downloaded too:",
 		htk.UL {
+			htk.LI { htk.A { href = "htk-3.2.0.lua", "HTK 3.2.0", }, },
 			htk.LI { htk.A { href = "htk-3.1.1.lua", "HTK 3.1.1", }, },
 			htk.LI { htk.A { href = "htk-3.1.lua", "HTK 3.1", }, },
 			htk.LI { htk.A { href = "htk-3.0.3.lua", "HTK 3.0.3", }, htk.SMALL {" (Lua 5.1)"}, },
@@ -309,6 +312,7 @@ and the third with the rendered HTML code.]],
 		-- News
 		htk.H2 { htk.A { name = "news", "News", }, },
 		htk.UL {
+			htk.LI { "3.3.0 [20/dec/2011] ", "New version updated to run for all Lua 5.X versions.", },
 			htk.LI { "3.2.0 [08/nov/2010] ", "Improving option-element attribute definition", htk.BR{}, "Deployment via LuaRocks", },
 			htk.LI { "3.1.1 [11/may/2007] ", "Bug fix: multiple selected values in checkboxes", },
 			htk.LI { "3.1 [09/apr/2007] ", "Deprecated constructions removed", },

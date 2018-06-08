@@ -1,11 +1,11 @@
 -----------------------------------------------------------------------------
 -- A toolkit for constructing HTML pages.
--- @title HTK 3.3.
+-- @title HTK 3.2.
 -- HTK offers a collection of constructors very similar to HTML elements,
 -- but with "Lua style".
 -- This version does not require HTMLToolkit.
--- It does require Lua 5.
--- @release $Id: htk-3.3.0.lua,v 1.1 2011-12-20 15:26:17 tomas Exp $
+-- It does require Lua 5.1.
+-- @release $Id: htk-3.2.0.lua,v 1.2 2010-11-08 17:48:10 tomas Exp $
 -----------------------------------------------------------------------------
 
 -- Internal structure.
@@ -49,14 +49,13 @@ local getmetatable, pairs, setmetatable, tonumber, type = getmetatable, pairs, s
 local format, match, strfind, strlen = string.format, string.match, string.find, string.len
 local tinsert, tremove = table.insert, table.remove
 
+module("htk")
 
-local _M = {
-	_COPYRIGHT = "Copyright (C) 2010-2011 PUC-Rio",
-	_DESCRIPTION = "HTK is a library of Lua constructors that create HTML elements.",
-	_VERSION = "HTK 3.3.0",
-}
+_COPYRIGHT = "Copyright (C) 2010 PUC-Rio"
+_DESCRIPTION = "HTK is a library of Lua constructors that create HTML elements."
+_VERSION = "HTK 3.2.0"
 
-_M.class_defaults = {}
+class_defaults = {}
 
 -- stack of strings.
 -- from ltn009 (by Roberto Ierusalimschy)
@@ -112,8 +111,8 @@ local function build_constructor (field)
 				end
 			end
 		end
-		if not obj.class and _M.class_defaults[field] then
-			addString (s, format (' class="%s"', _M.class_defaults[field]))
+		if not obj.class and class_defaults[field] then
+			addString (s, format (' class="%s"', class_defaults[field]))
 		end
 		addString (s, '>'..separator)
 		local n = #contain
@@ -136,18 +135,22 @@ end
 -- @param field Index of the table.
 -- @return [[ obj[field] ]].
 
-setmetatable (_M, {
-	__index = function (obj, field)
-		if valid_tags[field] then
-			-- On-demand constructor builder
-			local c = build_constructor (field)
-			_M[field] = c
-			return c
-		elseif old_index then
-			return old_index (obj, field)
-		end
-	end,
-})
+local mt = getmetatable (_M)
+if not mt then
+	mt = {}
+	setmetatable (_M, mt)
+end
+local old_index = mt.__index
+mt.__index = function (obj, field)
+	if valid_tags[field] then
+		-- On-demand constructor builder
+		local c = build_constructor (field)
+		_M[field] = c
+		return c
+	elseif old_index then
+		return old_index (obj, field)
+	end
+end
 
 
 -----------------------------------------------------------------------------
@@ -175,12 +178,12 @@ local _SELECT = build_constructor ("SELECT")
 -- @param obj Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.APPLET (obj)
+function APPLET (obj)
 	obj.codetype = "application/java"
 	obj.classid = "java:"..(obj.code or obj.object)
 	obj.code = nil
 	obj.object = nil
-	return _M.OBJECT (obj)
+	return OBJECT (obj)
 end
 
 -----------------------------------------------------------------------------
@@ -188,9 +191,9 @@ end
 -- @param obj Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.CENTER (obj)
+function CENTER (obj)
 	obj.align = "center"
-	return _M.DIV (obj)
+	return DIV (obj)
 end
 
 -- VIRTUAL Constructors.
@@ -203,7 +206,7 @@ end
 -- @param obj Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.BOX (obj)
+function BOX (obj)
 	local separator = obj.separator or ''
 	local s = ""
 	for i = 1, #obj do
@@ -217,7 +220,7 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.MULTILINE (param)
+function MULTILINE (param)
 	if param.value then
 		param[1] = param.value
 		param.value = nil
@@ -225,7 +228,7 @@ function _M.MULTILINE (param)
 	return _TEXTAREA (param)
 end
 
-_M.TEXTAREA = _M.MULTILINE
+TEXTAREA = MULTILINE
 
 -- INPUT Constructors.
 -- Constructors that encapsulate the INPUT element:
@@ -243,9 +246,9 @@ _M.TEXTAREA = _M.MULTILINE
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.BUTTON (param)
+function BUTTON (param)
 	param.type = "button"
-	return _M.INPUT (param)
+	return INPUT (param)
 end
 
 -----------------------------------------------------------------------------
@@ -253,9 +256,9 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.FILE (param)
+function FILE (param)
 	param.type = "file"
-	return _M.INPUT (param)
+	return INPUT (param)
 end
 
 -----------------------------------------------------------------------------
@@ -263,18 +266,18 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.HIDDEN (param)
+function HIDDEN (param)
 	param.type = "hidden"
 	if type(param.value) ~= "table" then
-		return _M.INPUT (param)
+		return INPUT (param)
 	else
 		local val = param.value
 		local box = {}
 		for i, v in pairs (val) do
 			param.value = v
-			tinsert (box, _M.INPUT (param))
+			tinsert (box, INPUT (param))
 		end
-		return _M.BOX (box)
+		return BOX (box)
 	end
 end
 
@@ -283,9 +286,9 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.PASSWORD (param)
+function PASSWORD (param)
 	param.type = "password"
-	return _M.INPUT (param)
+	return INPUT (param)
 end
 
 -----------------------------------------------------------------------------
@@ -293,9 +296,9 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.RADIO_BUTTON (param)
+function RADIO_BUTTON (param)
 	param.type = "radio"
-	return _M.INPUT (param)
+	return INPUT (param)
 end
 
 -----------------------------------------------------------------------------
@@ -303,9 +306,9 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.RESET (param)
+function RESET (param)
 	param.type = "reset"
-	return _M.INPUT (param)
+	return INPUT (param)
 end
 
 -----------------------------------------------------------------------------
@@ -313,9 +316,9 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.SUBMIT (param)
+function SUBMIT (param)
 	param.type = "submit"
-	return _M.INPUT (param)
+	return INPUT (param)
 end
 
 -----------------------------------------------------------------------------
@@ -323,9 +326,9 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.TEXT (param)
+function TEXT (param)
 	param.type = "text"
-	return _M.INPUT (param)
+	return INPUT (param)
 end
 
 -----------------------------------------------------------------------------
@@ -333,9 +336,9 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.TOGGLE (param)
+function TOGGLE (param)
 	param.type = "checkbox"
-	return _M.INPUT (param)
+	return INPUT (param)
 end
 
 
@@ -348,7 +351,7 @@ end
 -- @return String with the HTML representation of the element.
 
 local function button_list (param, element)
-	local item_separator = param.item_separator or _M.BR{}.."\n"
+	local item_separator = param.item_separator or BR{}.."\n"
 	local list = param.options
 	for i = 1, #list do
 		local tli = type(list[i])
@@ -362,17 +365,17 @@ local function button_list (param, element)
 			if param.value and strfind (param.value..',',  list[i].value, 1, 1) then
 				list[i].checked = 1
 			end
-			param[i] = _M.BOX {
+			param[i] = BOX {
 				_M[element] (list[i]),
 				item_separator,
 			}
 		elseif tli == "function" then	-- OTHER function!
-			param[i] = _M.BOX {
+			param[i] = BOX {
 				_M[element] (list[i] (param)),
 				item_separator,
 			}
 		else
-			param[i] = _M.BOX {
+			param[i] = BOX {
 				_M[element] {
 					name = param.name,
 					value = list[i],
@@ -384,7 +387,7 @@ local function button_list (param, element)
 		end
 	end
 	param.separator = '\n'
-	return _M.BOX (param)
+	return BOX (param)
 end
 
 -----------------------------------------------------------------------------
@@ -392,7 +395,7 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.RADIO (param)
+function RADIO (param)
 	return button_list (param, "RADIO_BUTTON")
 end
 
@@ -401,7 +404,7 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.TOGGLE_LIST (param)
+function TOGGLE_LIST (param)
 	return button_list (param, "TOGGLE")
 end
 
@@ -436,19 +439,19 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.SELECT (param)
+function SELECT (param)
 	local list = param.options
 	for i = 1, #list do
 		local selected = check_selected (param, i)
 		if type(list[i]) == "table" then
-			param[i] = _M.OPTION {
+			param[i] = OPTION {
 				list[i][1],
 				value = list[i].value,
 				selected = check_selected (param, i),
 				disabled = list[i].disabled,
 			}
 		else
-			param[i] = _M.OPTION {
+			param[i] = OPTION {
 				list[i],
 				selected = check_selected (param, i),
 			}
@@ -477,7 +480,7 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.COMPOUND (param)
+function COMPOUND (param)
 	for i = 1, #param do
 		if type(param[i]) == "table" then
 			-- Define attribute name.
@@ -491,14 +494,14 @@ function _M.COMPOUND (param)
 			param[i] = _M[t] (param[i])
 		end
 	end
-	return _M.BOX (param)
+	return BOX (param)
 end
 
 -----------------------------------------------------------------------------
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.DATE (param)
+function DATE (param)
 	param[1] = { type = "TEXT", size = 2, maxlength = 2, }
 	param[2] = { type = "SELECT", options = { "janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro" }, }
 	param[3] = { type = "TEXT", size = 4, maxlength = 4, }
@@ -524,11 +527,11 @@ function _M.DATE (param)
 		end)
 --]]
 	end
-	return _M.COMPOUND (param)
+	return COMPOUND (param)
 end
 
 -----------------------------------------------------------------------------
-function _M.RADIO_DATE (param)
+function RADIO_DATE (param)
 end
 
 
@@ -554,7 +557,7 @@ local function table_cell (param)
 			param[i] = nil
 			i = i+1
 		end
-		param[1] = _M.FONT (content)
+		param[1] = FONT (content)
 		param.face = nil
 		param.size = nil
 	end
@@ -565,7 +568,7 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.TH (param)
+function TH (param)
 	return _TH (table_cell(param))
 end
 
@@ -573,7 +576,7 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.TD (param)
+function TD (param)
 	return _TD (table_cell(param))
 end
 
@@ -603,8 +606,8 @@ local function input_field (param, element)
 	param.label_align = nil
 	param.class_label = nil
 	param.align = nil
-	return _M.TR {
-		_M.TD {
+	return TR {
+		TD {
 			label,
 			class = class_label,
 			face = param.face,
@@ -612,7 +615,7 @@ local function input_field (param, element)
 			align = label_align,
 			separator = '\n',
 		},
-		_M.TD {
+		TD {
 			_M[element] (param),
 			face = param.face,
 			size = font_size,
@@ -627,7 +630,7 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.DATE_FIELD (param)
+function DATE_FIELD (param)
 	return input_field (param, "DATE")
 end
 
@@ -635,7 +638,7 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.FILE_FIELD (param)
+function FILE_FIELD (param)
 	return input_field (param, "FILE")
 end
 
@@ -643,7 +646,7 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.PASSWORD_FIELD (param)
+function PASSWORD_FIELD (param)
 	return input_field (param, "PASSWORD")
 end
 
@@ -651,7 +654,7 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.RADIO_FIELD (param)
+function RADIO_FIELD (param)
 	return input_field (param, "RADIO")
 end
 
@@ -659,7 +662,7 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.SELECT_FIELD (param)
+function SELECT_FIELD (param)
 	return input_field (param, "SELECT")
 end
 
@@ -667,7 +670,7 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.TEXT_FIELD (param)
+function TEXT_FIELD (param)
 	return input_field (param, "TEXT")
 end
 
@@ -675,17 +678,17 @@ end
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.TEXTAREA_FIELD (param)
+function TEXTAREA_FIELD (param)
 	return input_field (param, "MULTILINE")
 end
 
-_M.MULTILINE_FIELD = _M.TEXTAREA_FIELD
+MULTILINE_FIELD = TEXTAREA_FIELD
 
 -----------------------------------------------------------------------------
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
-function _M.TOGGLE_FIELD (param)
+function TOGGLE_FIELD (param)
 	return input_field (param, "TOGGLE")
 end
 
@@ -725,7 +728,7 @@ end
 -- @param param Table with object description.
 -- @return Function that will create the option.
 
-function _M.OTHER (param)
+function OTHER (param)
 	return function (obj)
 		-- Clone param table to reuse HTML attributes
 		local p = clone (param)
@@ -734,7 +737,7 @@ function _M.OTHER (param)
 		p.name = obj.name.."__other_"
 		p.value = (not checked (obj)) and obj.value
 		return {
-			_M.BOX {
+			BOX {
 				param[1],
 				param.type (p),
 			},
@@ -744,5 +747,3 @@ function _M.OTHER (param)
 		}
 	end
 end
-
-return _M
