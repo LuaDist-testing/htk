@@ -5,7 +5,7 @@
 -- but with "Lua style".
 -- This version does not require HTMLToolkit.
 -- It does require Lua 5.
--- @release $Id: htk-3.3.0.lua,v 1.1 2011-12-20 15:26:17 tomas Exp $
+-- @release $Id: htk-3.3.0.lua,v 1.1 2011/12/20 15:26:17 tomas Exp $
 -----------------------------------------------------------------------------
 
 -- Internal structure.

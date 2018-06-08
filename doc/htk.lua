@@ -5,7 +5,7 @@
 -- but with "Lua style".
 -- This version does not require HTMLToolkit.
 -- It does require Lua 5.
--- @release $Id: htk-3.3.1.lua,v 1.1 2013/02/08 01:41:45 tomas Exp $
+-- @release $Id: htk-3.3.2.lua,v 1.2 2013/02/20 14:04:10 tomas Exp $
 -----------------------------------------------------------------------------
 
 -- Internal structure.
@@ -53,7 +53,7 @@ local tinsert, tremove = table.insert, table.remove
 local _M = {
 	_COPYRIGHT = "Copyright (C) 2010-2013 PUC-Rio",
 	_DESCRIPTION = "HTK is a library of Lua constructors that create HTML elements.",
-	_VERSION = "HTK 3.3.1",
+	_VERSION = "HTK 3.3.2",
 }
 
 _M.class_defaults = {}
@@ -207,7 +207,7 @@ function _M.BOX (obj)
 	local separator = obj.separator or ''
 	local s = ""
 	for i = 1, #obj do
-		s = format ('%s%s', s, obj[i], separator)
+		s = format ('%s%s%s', s, obj[i], separator)
 	end
 	return s
 end
@@ -343,10 +343,10 @@ end
 -- CONTAINERS
 -- Constructors that creates some abstractions or encapsulation:
 
-local function findnum (str, num)
-	num = tostring(num)
+local function findval (str, val)
+	val = tostring(val)
 	local ok = false
-	str:gsub ("(%d+)", function (n) if n==num then ok = true end end)
+	str:gsub ("([^,]+)", function (v) if v==val then ok = true end end)
 	return ok
 end
 
@@ -367,7 +367,7 @@ local function button_list (param, element)
 				list[i].value = list[i][1]
 			end
 			--if param.value and strfind (param.value..',',  list[i].value, 1, 1) then
-			if param.value and findnum (param.value, list[i].value) then
+			if param.value and findval (param.value, list[i].value) then
 				list[i].checked = true
 			end
 			param[i] = _M.BOX {
@@ -422,22 +422,23 @@ end
 local function check_selected (param, i)
 	local list = param.options or {}
 	local is_table = type(list[i]) == "table"
-	local find
-	if param.multiple then
-		find = findnum
+	local find = param.multiple and findval or equal
+
+	if param.value then
+		if is_table then -- options' elements are tables
+			return find (param.value, list[i].value or list[i][1])
+		else
+			return find (param.value, list[i])
+				or find (param.value, i)
+		end
+	elseif is_table then
+		if type(list.selected) == "string" then
+			return find (list.selected, i)
+		else
+			return list[i].selected
+		end
 	else
-		find = equal
-	end
-	if (is_table and list[i].selected) or
-		(type(list.selected)=="string" and find (list.selected, i)) or
-		(param.value and is_table and (
-			(find (param.value, list[i].value)) or
-			(find (param.value, list[i][1]))
-		)) or
-		param.value == i or param.value == list[i] then
-		return true
-	else
-		return nil
+		return false
 	end
 end
 
@@ -451,12 +452,8 @@ function _M.SELECT (param)
 	for i = 1, #list do
 		local selected = check_selected (param, i)
 		if type(list[i]) == "table" then
-			param[i] = _M.OPTION {
-				list[i][1],
-				value = list[i].value,
-				selected = check_selected (param, i),
-				disabled = list[i].disabled,
-			}
+			list[i].selected = list[i].selected or check_selected (param, i)
+			param[i] = _M.OPTION (list[i])
 		else
 			param[i] = _M.OPTION {
 				list[i],

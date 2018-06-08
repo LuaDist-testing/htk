@@ -67,8 +67,9 @@ local ex3 = [[htk.FORM {
   },
 }]]
 local ex4 = [[htk.BOX {
+  separator = '\n',
   htk.SELECT {
-    multiple = "1",
+    multiple = true,
     name = "cities",
     value = "11",
     options = {
@@ -78,16 +79,28 @@ local ex4 = [[htk.BOX {
       { "Cabo Frio", value="12" },
     },
   },
-  htk.BR {},
-  htk.RADIO {
+  htk.SELECT {
+    multiple = true,
     name = "cities",
-    value = "11",
+    value = "11,1",
     options = {
       { "Rio de Janeiro", value="1" },
       { "Friburgo", value="5" },
       { "Saquarema", value="11" },
       { "Cabo Frio", value="12" },
     },
+  },
+  htk.SELECT {
+    multiple = true,
+    name = "cities",
+    value = "Friburgo,Cabo Frio",
+    options = { "Rio de Janeiro", "Friburgo", "Saquarema", "Cabo Frio", },
+  },
+  htk.BR {},
+  htk.RADIO {
+    name = "cities",
+    value = "Friburgo",
+    options = { "Rio de Janeiro", "Friburgo", "Saquarema", "Cabo Frio", },
   },
 }]]
 local ex_class_defaults = [[htk.class_defaults.TD = "common"
@@ -110,7 +123,10 @@ print (htk.HTML {
 				cellspacing = 2,
 				cellpadding = 2,
 				htk.TR { htk.TD { align = "center",
-					htk.IMG { alt = "The Lua Language", src = "lua.png", },
+					htk.A {
+						href = "http://www.lua.org",
+						htk.IMG { alt = "The Lua Language", src = "lua.png", },
+					},
 				},},
 				htk.TR { htk.TD { align = "center",
 					htk.BIG { htk.B { "HTK", }, },
@@ -129,11 +145,10 @@ print (htk.HTML {
 		htk.H2 { htk.A { name = "whatis", "What is HTK?", }, },
 		"HTK is a library of ",
 		htk.A { href = "http://www.lua.org", "Lua", },
-		" constructors that create HTML elements.\n",
+		" functions that create HTML text.\n",
 		"It was designed to be used within ",
 		htk.A { href = "http://www.keplerproject.org/cgilua", "CGILua", },
-		[[, a Lua interpreter which provides an appropriate environment to
-run CGI scripts written in Lua.]],
+		[[, however HTK does not depend on CGILua.]],
 		htk.P {},
 		[[HTK was developed to provide a structured way to build HTML
 pages.
@@ -151,7 +166,7 @@ particularities: all pre-defined form-field values are set with ]],
 		"The ",
 		htk.B { "current version" },
 		" of HTK source code can be freely downloaded from the following link:",
-		htk.UL { htk.LI { htk.A { href = "htk.lua", "HTK 3.3.1", }, },},
+		htk.UL { htk.LI { htk.A { href = "htk.lua", htk._VERSION, }, },},
 		"This version is just a reimplementation to make it compatible with all Lua 5.X versions.",
 		htk.BR {},
 		"You can install it in your LUA_PATH or using ",
@@ -159,6 +174,7 @@ particularities: all pre-defined form-field values are set with ]],
 		".",
 		"Older versions can be downloaded too:",
 		htk.UL {
+			htk.LI { htk.A { href = "htk-3.3.1.lua", "HTK 3.3.1", }, },
 			htk.LI { htk.A { href = "htk-3.3.0.lua", "HTK 3.3.0", }, },
 			htk.LI { htk.A { href = "htk-3.2.0.lua", "HTK 3.2.0", }, },
 			htk.LI { htk.A { href = "htk-3.1.1.lua", "HTK 3.1.1", }, },
@@ -227,13 +243,13 @@ In a group of radio buttons only one of them can be checked;
 a group of options compound a selection list.]],
 		htk.DD {},
 			htk.TT { "htk.RADIO" },
-			" creates a group of radio buttons.",
+			" creates a group of radio buttons (in HTML, these elements are of tag INPUT, with the TYPE attribute set to &quot;radio&quot;).",
 		htk.DD {},
 			htk.TT { "htk.TOGGLE_LIST" },
-			" creates a group of toggles.",
+			" creates a group of toggles (in HTML, these elements are of tag INPUT, with the TYPE attribute set to &quot;checkbox&quot;).",
 		htk.DD {},
 			htk.TT { "htk.SELECT" },
-			" creates a selection list.",
+			" creates a selection list (in HTML, this element is of tag SELECT, which should have some (or several) elements of tag OPTION inside it).",
 		htk.P {},
 
 		-- Compound constructors
@@ -338,6 +354,7 @@ and the third with the rendered HTML code.]],
 		-- News
 		htk.H2 { htk.A { name = "news", "News", }, },
 		htk.UL {
+			htk.LI { "3.3.2 [20/feb/2013] ", "Bug fix: selected/checked items of SELECT, RADIO and TOGGLE_LIST were not correctly marked", htk.BR{}, "Add more SELECT examples", htk.BR{}, "Minor improvements on documentation (in this file).", },
 			htk.LI { "3.3.1 [8/feb/2013] ", "Bug fix: selected similar values were intermixed.", },
 			htk.LI { "3.3.0 [20/dec/2011] ", "New version updated to run for all Lua 5.X versions.", },
 			htk.LI { "3.2.0 [08/nov/2010] ", "Improving option-element attribute definition", htk.BR{}, "Deployment via LuaRocks", },
