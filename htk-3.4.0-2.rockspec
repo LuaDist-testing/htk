@@ -2,7 +2,7 @@
 
 package = "htk"
 
-version = "3.3.2-1"
+version = "3.4.0-2"
 
 description = {
 	summary = "A library of Lua constructors to create HTML code",
@@ -14,13 +14,13 @@ HTK is a library of Lua constructors that create HTML elements in a structured w
 
 -- LuaDist source
 source = {
-  tag = "3.3.2-1",
+  tag = "3.4.0-2",
   url = "git://github.com/LuaDist-testing/htk.git"
 }
 -- Original source
 -- source = {
--- 	url = "http://www.ccpa.puc-rio.br/software/htk/download/htk-3.3.2.tar.gz",
--- 	md5 = "c7247b06a8c1239118cd607644081669",
+-- 	url = "http://www.ccpa.puc-rio.br/software/htk/download/htk-3.4.tar.gz",
+-- 	md5 = "5abc0b12d5ac8e1abc4b16bb9edb0a30",
 -- }
 
 build = {

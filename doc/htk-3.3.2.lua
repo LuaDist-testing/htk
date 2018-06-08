@@ -5,7 +5,7 @@
 -- but with "Lua style".
 -- This version does not require HTMLToolkit.
 -- It does require Lua 5.
--- @release $Id: htk-3.4.lua,v 1.2 2013/03/07 18:59:46 tomas Exp $
+-- @release $Id: htk-3.3.2.lua,v 1.2 2013/02/20 14:04:10 tomas Exp $
 -----------------------------------------------------------------------------
 
 -- Internal structure.
@@ -53,7 +53,7 @@ local tinsert, tremove = table.insert, table.remove
 local _M = {
 	_COPYRIGHT = "Copyright (C) 2010-2013 PUC-Rio",
 	_DESCRIPTION = "HTK is a library of Lua constructors that create HTML elements.",
-	_VERSION = "HTK 3.4",
+	_VERSION = "HTK 3.3.2",
 }
 
 _M.class_defaults = {}
@@ -98,7 +98,6 @@ local function build_constructor (field)
 		local contain = {}
 		local s = newStack ()
 		addString (s, '<'..field)
-assert(type(obj)=="table", obj)
 		for i, v in pairs (obj) do
 			if type(i) == "number" then
 				contain[i] = v
@@ -344,17 +343,79 @@ end
 -- CONTAINERS
 -- Constructors that creates some abstractions or encapsulation:
 
---
-local function equal (str, sub)
-	return str == sub
-end
-
---
 local function findval (str, val)
 	val = tostring(val)
 	local ok = false
 	str:gsub ("([^,]+)", function (v) if v==val then ok = true end end)
 	return ok
+end
+
+-- @param param Table with object description.
+-- @param element String with the name of the HTML element.
+-- @return String with the HTML representation of the element.
+
+local function button_list (param, element)
+	local item_separator = param.item_separator or _M.BR{}.."\n"
+	local list = param.options
+	for i = 1, #list do
+		local tli = type(list[i])
+		if tli == "table" then
+			if not list[i].name then
+				list[i].name = param.name
+			end
+			if not list[i].value then
+				list[i].value = list[i][1]
+			end
+			--if param.value and strfind (param.value..',',  list[i].value, 1, 1) then
+			if param.value and findval (param.value, list[i].value) then
+				list[i].checked = true
+			end
+			param[i] = _M.BOX {
+				_M[element] (list[i]),
+				item_separator,
+			}
+		elseif tli == "function" then	-- OTHER function!
+			param[i] = _M.BOX {
+				_M[element] (list[i] (param)),
+				item_separator,
+			}
+		else
+			param[i] = _M.BOX {
+				_M[element] {
+					name = param.name,
+					value = list[i],
+					checked = list[i]==param.value,
+				},
+				list[i],
+				item_separator,
+			}
+		end
+	end
+	param.separator = '\n'
+	return _M.BOX (param)
+end
+
+-----------------------------------------------------------------------------
+-- Construct a list of [[RADIO_BUTTON]]s.
+-- @param param Table with object description.
+-- @return String with HTML representation of the object.
+
+function _M.RADIO (param)
+	return button_list (param, "RADIO_BUTTON")
+end
+
+-----------------------------------------------------------------------------
+-- Construct a list of [[TOGGLE]]s (checkbox buttons).
+-- @param param Table with object description.
+-- @return String with HTML representation of the object.
+
+function _M.TOGGLE_LIST (param)
+	return button_list (param, "TOGGLE")
+end
+
+--
+local function equal (str, sub)
+	return str == sub
 end
 
 --
@@ -381,78 +442,25 @@ local function check_selected (param, i)
 	end
 end
 
--- @param param Table with object description.
--- @param element String with the name of the HTML element.
--- @return String with the HTML representation of the element.
-
-local function options_list (param, element, markattr)
-	local item_separator = param.item_separator or _M.BR{}
-	if param.value then
-		param.value = tostring(param.value)
-	end
-	local list = param.options
-	for i = 1, #list do
-		local li = list[i]
-		local tli = type(li)
-		if tli == "table" then
-			if not li.name then
-				li.name = param.name
-			end
-			li.value = tostring(li.value or li[1])
-			if param.value then
-				li[markattr] = findval (param.value, li.value) or nil
-			end
-			param[i] = _M.BOX {
-				_M[element] (li),
-				item_separator,
-			}
-		elseif tli == "function" then	-- OTHER function!
-			param[i] = _M.BOX {
-				_M[element] (li (param)),
-				item_separator,
-			}
-		else
-			li = tostring(li)
-			param[i] = _M.BOX {
-				_M[element] {
-					name = param.name,
-					value = li,
-					[markattr] = findval (param.value or '', li),
-					li,
-				},
-				item_separator,
-			}
-		end
-	end
-	param.separator = '\n'
-	return _M.BOX (param)
-end
-
------------------------------------------------------------------------------
--- Construct a list of [[RADIO_BUTTON]]s.
--- @param param Table with object description.
--- @return String with HTML representation of the object.
-
-function _M.RADIO (param)
-	return options_list (param, "RADIO_BUTTON", "checked")
-end
-
------------------------------------------------------------------------------
--- Construct a list of [[TOGGLE]]s (checkbox buttons).
--- @param param Table with object description.
--- @return String with HTML representation of the object.
-
-function _M.TOGGLE_LIST (param)
-	return options_list (param, "TOGGLE", "checked")
-end
-
 -----------------------------------------------------------------------------
 -- Construct a selection list.
 -- @param param Table with object description.
 -- @return String with HTML representation of the object.
 
 function _M.SELECT (param)
-	options_list (param, "OPTION", "selected")
+	local list = param.options
+	for i = 1, #list do
+		local selected = check_selected (param, i)
+		if type(list[i]) == "table" then
+			list[i].selected = list[i].selected or check_selected (param, i)
+			param[i] = _M.OPTION (list[i])
+		else
+			param[i] = _M.OPTION {
+				list[i],
+				selected = check_selected (param, i),
+			}
+		end
+	end
 	param.options = nil
 	param.value = nil
 	param.separator = '\n'

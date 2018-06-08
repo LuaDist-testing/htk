@@ -1,6 +1,6 @@
 <HTML><HEAD><TITLE>HTK</TITLE></HEAD><BODY bgcolor="#FFFFFF">
 <HR>
-<DIV align="center"><TABLE cellpadding="2" border="0" cellspacing="2"><TR><TD align="center"><A href="http://www.lua.org"><IMG alt="The Lua Language" src="lua.png"></A></TD></TR><TR><TD align="center"><BIG><B>HTK</B></BIG></TD></TR><TR><TD align="center" valign="top">A library of HTML constructors</TD></TR></TABLE></DIV>
+<DIV align="center"><TABLE cellpadding="2" cellspacing="2" border="0"><TR><TD align="center"><A href="http://www.lua.org"><IMG alt="The Lua Language" src="lua.png"></A></TD></TR><TR><TD align="center"><BIG><B>HTK</B></BIG></TD></TR><TR><TD valign="top" align="center">A library of HTML constructors</TD></TR></TABLE></DIV>
 <P align="center">
 <A href="#whatis">what is</A>
 &middot;
@@ -38,14 +38,14 @@ particularities: all pre-defined form-field values are set with
 The 
 <B>current version</B>
  of HTK source code can be freely downloaded from the following link:
-<UL><LI><A href="htk.lua">HTK 3.3.2</A></LI></UL>
+<UL><LI><A href="htk.lua">HTK 3.4</A></LI></UL>
 This version is just a reimplementation to make it compatible with all Lua 5.X versions.
 <BR>
 You can install it in your LUA_PATH or using 
 <A href="http://www.luarocks.org/">LuaRocks</A>
 .
 Older versions can be downloaded too:
-<UL><LI><A href="htk-3.3.1.lua">HTK 3.3.1</A></LI><LI><A href="htk-3.3.0.lua">HTK 3.3.0</A></LI><LI><A href="htk-3.2.0.lua">HTK 3.2.0</A></LI><LI><A href="htk-3.1.1.lua">HTK 3.1.1</A></LI><LI><A href="htk-3.1.lua">HTK 3.1</A></LI><LI><A href="htk-3.0.3.lua">HTK 3.0.3</A><SMALL> (Lua 5.1)</SMALL></LI><LI><A href="htk-3.0.2.lua">HTK 3.0.2</A></LI><LI><A href="htk-3.0.1.lua">HTK 3.0.1</A></LI><LI><A href="htk-3.0.lua">HTK 3.0</A><SMALL> (Lua 5.0)</SMALL></LI><LI><A href="htk-2.0.4.lua">HTK 2.0.4</A></LI><LI><A href="htk-2.0.3.lua">HTK 2.0.3</A></LI><LI><A href="htk-2.0.2.lua">HTK 2.0.2</A></LI><LI><A href="htk-2.0.1.lua">HTK 2.0.1</A></LI><LI><A href="htk-2.0.lua">HTK 2.0</A></LI><LI><A href="htk-1.2.lua">HTK 1.2</A></LI><LI><A href="htmltoolkit.lua">HTMLToolkit</A></LI></UL>
+<UL><LI><A href="htk-3.3.2.lua">HTK 3.3.2</A></LI><LI><A href="htk-3.3.1.lua">HTK 3.3.1</A></LI><LI><A href="htk-3.3.0.lua">HTK 3.3.0</A></LI><LI><A href="htk-3.2.0.lua">HTK 3.2.0</A></LI><LI><A href="htk-3.1.1.lua">HTK 3.1.1</A></LI><LI><A href="htk-3.1.lua">HTK 3.1</A></LI><LI><A href="htk-3.0.3.lua">HTK 3.0.3</A><SMALL> (Lua 5.1)</SMALL></LI><LI><A href="htk-3.0.2.lua">HTK 3.0.2</A></LI><LI><A href="htk-3.0.1.lua">HTK 3.0.1</A></LI><LI><A href="htk-3.0.lua">HTK 3.0</A><SMALL> (Lua 5.0)</SMALL></LI><LI><A href="htk-2.0.4.lua">HTK 2.0.4</A></LI><LI><A href="htk-2.0.3.lua">HTK 2.0.3</A></LI><LI><A href="htk-2.0.2.lua">HTK 2.0.2</A></LI><LI><A href="htk-2.0.1.lua">HTK 2.0.1</A></LI><LI><A href="htk-2.0.lua">HTK 2.0</A></LI><LI><A href="htk-1.2.lua">HTK 1.2</A></LI><LI><A href="htmltoolkit.lua">HTMLToolkit</A></LI></UL>
 <H2><A name="ref">Reference</A></H2>
 HTK constructors can be divided in some groups:
 <UL><LI><A href="#virtual">Virtual</A></LI><LI><A href="#input">Input</A></LI><LI><A href="#container">Container</A></LI><LI><A href="#compound">Compound</A></LI><LI><A href="#table_cell">Table cells</A></LI><LI><A href="#table_row">Table rows</A></LI><LI><A href="#class_defaults">Default class attribute</A></LI></UL>
@@ -235,10 +235,8 @@ Full name
 Sex
 &lt;/TD&gt;
 &lt;TD class="common"&gt;
-&lt;INPUT value="M" type="radio" name="sex"&gt;Masc.&lt;/INPUT&gt;&lt;BR&gt;
-
-&lt;INPUT value="F" type="radio" name="sex"&gt;Fem.&lt;/INPUT&gt;&lt;BR&gt;
-
+&lt;INPUT name="sex" value="M" type="radio"&gt;Masc.&lt;/INPUT&gt;&lt;BR&gt;
+&lt;INPUT name="sex" value="F" type="radio"&gt;Fem.&lt;/INPUT&gt;&lt;BR&gt;
 
 &lt;/TD&gt;
 &lt;/TR&gt;
@@ -257,10 +255,8 @@ Full name
 Sex
 </TD>
 <TD class="common">
-<INPUT value="M" type="radio" name="sex">Masc.</INPUT><BR>
-
-<INPUT value="F" type="radio" name="sex">Fem.</INPUT><BR>
-
+<INPUT name="sex" value="M" type="radio">Masc.</INPUT><BR>
+<INPUT name="sex" value="F" type="radio">Fem.</INPUT><BR>
 
 </TD>
 </TR>
@@ -301,60 +297,52 @@ Sex
     options = { "Rio de Janeiro", "Friburgo", "Saquarema", "Cabo Frio", },
   },
 })</PRE></SMALL></TD><TD class="common"><SMALL><PRE>&lt;SELECT multiple name="cities"&gt;
-&lt;OPTION value="1"&gt;Rio de Janeiro&lt;/OPTION&gt;
-&lt;OPTION value="5"&gt;Friburgo&lt;/OPTION&gt;
-&lt;OPTION value="11" selected&gt;Saquarema&lt;/OPTION&gt;
-&lt;OPTION value="12"&gt;Cabo Frio&lt;/OPTION&gt;
+&lt;OPTION name="cities" value="1"&gt;Rio de Janeiro&lt;/OPTION&gt;&lt;BR&gt;
+&lt;OPTION name="cities" value="5"&gt;Friburgo&lt;/OPTION&gt;&lt;BR&gt;
+&lt;OPTION name="cities" selected value="11"&gt;Saquarema&lt;/OPTION&gt;&lt;BR&gt;
+&lt;OPTION name="cities" value="12"&gt;Cabo Frio&lt;/OPTION&gt;&lt;BR&gt;
 &lt;/SELECT&gt;
 &lt;SELECT multiple name="cities"&gt;
-&lt;OPTION value="1" selected&gt;Rio de Janeiro&lt;/OPTION&gt;
-&lt;OPTION value="5"&gt;Friburgo&lt;/OPTION&gt;
-&lt;OPTION value="11" selected&gt;Saquarema&lt;/OPTION&gt;
-&lt;OPTION value="12"&gt;Cabo Frio&lt;/OPTION&gt;
+&lt;OPTION name="cities" selected value="1"&gt;Rio de Janeiro&lt;/OPTION&gt;&lt;BR&gt;
+&lt;OPTION name="cities" value="5"&gt;Friburgo&lt;/OPTION&gt;&lt;BR&gt;
+&lt;OPTION name="cities" selected value="11"&gt;Saquarema&lt;/OPTION&gt;&lt;BR&gt;
+&lt;OPTION name="cities" value="12"&gt;Cabo Frio&lt;/OPTION&gt;&lt;BR&gt;
 &lt;/SELECT&gt;
 &lt;SELECT multiple name="cities"&gt;
-&lt;OPTION&gt;Rio de Janeiro&lt;/OPTION&gt;
-&lt;OPTION selected&gt;Friburgo&lt;/OPTION&gt;
-&lt;OPTION&gt;Saquarema&lt;/OPTION&gt;
-&lt;OPTION selected&gt;Cabo Frio&lt;/OPTION&gt;
+&lt;OPTION name="cities" value="Rio de Janeiro"&gt;Rio de Janeiro&lt;/OPTION&gt;&lt;BR&gt;
+&lt;OPTION name="cities" selected value="Friburgo"&gt;Friburgo&lt;/OPTION&gt;&lt;BR&gt;
+&lt;OPTION name="cities" value="Saquarema"&gt;Saquarema&lt;/OPTION&gt;&lt;BR&gt;
+&lt;OPTION name="cities" selected value="Cabo Frio"&gt;Cabo Frio&lt;/OPTION&gt;&lt;BR&gt;
 &lt;/SELECT&gt;
 &lt;BR&gt;
-&lt;INPUT value="Rio de Janeiro" type="radio" name="cities"&gt;Rio de Janeiro&lt;BR&gt;
-
-&lt;INPUT value="Friburgo" type="radio" name="cities" checked&gt;Friburgo&lt;BR&gt;
-
-&lt;INPUT value="Saquarema" type="radio" name="cities"&gt;Saquarema&lt;BR&gt;
-
-&lt;INPUT value="Cabo Frio" type="radio" name="cities"&gt;Cabo Frio&lt;BR&gt;
-
+&lt;INPUT name="cities" value="Rio de Janeiro" type="radio"&gt;Rio de Janeiro&lt;/INPUT&gt;&lt;BR&gt;
+&lt;INPUT name="cities" value="Friburgo" checked type="radio"&gt;Friburgo&lt;/INPUT&gt;&lt;BR&gt;
+&lt;INPUT name="cities" value="Saquarema" type="radio"&gt;Saquarema&lt;/INPUT&gt;&lt;BR&gt;
+&lt;INPUT name="cities" value="Cabo Frio" type="radio"&gt;Cabo Frio&lt;/INPUT&gt;&lt;BR&gt;
 
 </PRE></SMALL></TD><TD class="common"><SMALL><SELECT multiple name="cities">
-<OPTION value="1">Rio de Janeiro</OPTION>
-<OPTION value="5">Friburgo</OPTION>
-<OPTION value="11" selected>Saquarema</OPTION>
-<OPTION value="12">Cabo Frio</OPTION>
+<OPTION name="cities" value="1">Rio de Janeiro</OPTION><BR>
+<OPTION name="cities" value="5">Friburgo</OPTION><BR>
+<OPTION name="cities" selected value="11">Saquarema</OPTION><BR>
+<OPTION name="cities" value="12">Cabo Frio</OPTION><BR>
 </SELECT>
 <SELECT multiple name="cities">
-<OPTION value="1" selected>Rio de Janeiro</OPTION>
-<OPTION value="5">Friburgo</OPTION>
-<OPTION value="11" selected>Saquarema</OPTION>
-<OPTION value="12">Cabo Frio</OPTION>
+<OPTION name="cities" selected value="1">Rio de Janeiro</OPTION><BR>
+<OPTION name="cities" value="5">Friburgo</OPTION><BR>
+<OPTION name="cities" selected value="11">Saquarema</OPTION><BR>
+<OPTION name="cities" value="12">Cabo Frio</OPTION><BR>
 </SELECT>
 <SELECT multiple name="cities">
-<OPTION>Rio de Janeiro</OPTION>
-<OPTION selected>Friburgo</OPTION>
-<OPTION>Saquarema</OPTION>
-<OPTION selected>Cabo Frio</OPTION>
+<OPTION name="cities" value="Rio de Janeiro">Rio de Janeiro</OPTION><BR>
+<OPTION name="cities" selected value="Friburgo">Friburgo</OPTION><BR>
+<OPTION name="cities" value="Saquarema">Saquarema</OPTION><BR>
+<OPTION name="cities" selected value="Cabo Frio">Cabo Frio</OPTION><BR>
 </SELECT>
 <BR>
-<INPUT value="Rio de Janeiro" type="radio" name="cities">Rio de Janeiro<BR>
-
-<INPUT value="Friburgo" type="radio" name="cities" checked>Friburgo<BR>
-
-<INPUT value="Saquarema" type="radio" name="cities">Saquarema<BR>
-
-<INPUT value="Cabo Frio" type="radio" name="cities">Cabo Frio<BR>
-
+<INPUT name="cities" value="Rio de Janeiro" type="radio">Rio de Janeiro</INPUT><BR>
+<INPUT name="cities" value="Friburgo" checked type="radio">Friburgo</INPUT><BR>
+<INPUT name="cities" value="Saquarema" type="radio">Saquarema</INPUT><BR>
+<INPUT name="cities" value="Cabo Frio" type="radio">Cabo Frio</INPUT><BR>
 
 </SMALL></TD></TR></TABLE>
 This page was completely generated by HTK -- is its main test!
@@ -362,7 +350,7 @@ The source code of this page can be downloaded by clicking
 <A href="index.lua">here</A>
 <P>
 <H2><A name="news">News</A></H2>
-<UL><LI>3.3.2 [20/feb/2013] Bug fix: selected/checked items of SELECT, RADIO and TOGGLE_LIST were not correctly marked<BR>Add more SELECT examples<BR>Minor improvements on documentation (in this file).</LI><LI>3.3.1 [8/feb/2013] Bug fix: selected similar values were intermixed.</LI><LI>3.3.0 [20/dec/2011] New version updated to run for all Lua 5.X versions.</LI><LI>3.2.0 [08/nov/2010] Improving option-element attribute definition<BR>Deployment via LuaRocks</LI><LI>3.1.1 [11/may/2007] Bug fix: multiple selected values in checkboxes</LI><LI>3.1 [09/apr/2007] Deprecated constructions removed</LI><LI>3.0.3 [30/may/2006] New version updated to run with Lua 5.1</LI><LI>3.0.2 [25/jan/2006] Bug fix: boolean value in attributes</LI><LI>3.0.1 [24/jan/2006] Using <CODE>module</CODE> function</LI><LI>3.0 [13/out/2003] New version updated to run with Lua 5.0</LI><LI>2.0.4 [21/aug/2003] Bug fix (revisited): multiple selected values</LI><LI>2.0.3 [25/jul/2002] New feature: <A href="#class_defaults">default value for class attribute</A></LI><LI>2.0.2 [25/apr/2002] Bug fix: multiple selected values</LI><LI>2.0.1 [24/oct/2001] Bug fix: closing tags</LI><LI>2.0 [15/oct/2001] Version 2.0 released</LI><LI>1.2 [28/sep/2001] Conforming to <A href="http://www.lua.org/notes/ltn007.html">LTN 007 - Modules & Packages</A></LI><LI>[26/mar/2001] Bug fix on <I>Table Rows</I></LI></UL>
+<UL><LI>3.4 [4/mar/2013] Specification clean up: SELECT, RADIO and TOGGLE_LIST default values must be specified values (in other words, one cannot pre-select an item by its position on the list anymore)</LI><LI>3.3.2 [20/feb/2013] Bug fix: selected/checked items of SELECT, RADIO and TOGGLE_LIST were not correctly marked<BR>Add more SELECT examples<BR>Minor improvements on documentation (in this file).</LI><LI>3.3.1 [8/feb/2013] Bug fix: selected similar values were intermixed.</LI><LI>3.3.0 [20/dec/2011] New version updated to run for all Lua 5.X versions.</LI><LI>3.2.0 [08/nov/2010] Improving option-element attribute definition<BR>Deployment via LuaRocks</LI><LI>3.1.1 [11/may/2007] Bug fix: multiple selected values in checkboxes</LI><LI>3.1 [09/apr/2007] Deprecated constructions removed</LI><LI>3.0.3 [30/may/2006] New version updated to run with Lua 5.1</LI><LI>3.0.2 [25/jan/2006] Bug fix: boolean value in attributes</LI><LI>3.0.1 [24/jan/2006] Using <CODE>module</CODE> function</LI><LI>3.0 [13/out/2003] New version updated to run with Lua 5.0</LI><LI>2.0.4 [21/aug/2003] Bug fix (revisited): multiple selected values</LI><LI>2.0.3 [25/jul/2002] New feature: <A href="#class_defaults">default value for class attribute</A></LI><LI>2.0.2 [25/apr/2002] Bug fix: multiple selected values</LI><LI>2.0.1 [24/oct/2001] Bug fix: closing tags</LI><LI>2.0 [15/oct/2001] Version 2.0 released</LI><LI>1.2 [28/sep/2001] Conforming to <A href="http://www.lua.org/notes/ltn007.html">LTN 007 - Modules & Packages</A></LI><LI>[26/mar/2001] Bug fix on <I>Table Rows</I></LI></UL>
 <P>
 <H2><A name="implementation">Implementation</A></H2>
 Originally, HTK was based on 
@@ -428,6 +416,6 @@ making it easier to maintain, despite its complexity.
 <HR>
 <TABLE align="center">
 <TR><TD align="center" class="common"><IMG alt="Created with Vim" src="vim.png"></TD><TD align="center" class="common"> and </TD><TD align="center" class="common"><IMG alt="Best Viewed on Any Browser" src="anybrowser.png"></TD></TR>
-<TR><TD align="center" colspan="3" class="common"><SMALL>Last modified by Tomás on <BR>Wed Feb 20 11:09:32 2013</SMALL></TD></TR>
+<TR><TD colspan="3" align="center" class="common"><SMALL>Last modified by Tomás on <BR>Wed Apr 22 15:33:41 2015</SMALL></TD></TR>
 </TABLE>
 </BODY></HTML>

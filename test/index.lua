@@ -1,7 +1,9 @@
-#!/usr/local/bin/lua5.1
+#!/usr/bin/env lua
 
 local gsub = gsub or string.gsub
-local dostring = dostring or function (s) return assert(loadstring(s))() end
+local dostring = dostring
+	or (loadstring and function (s) return assert(loadstring(s))() end)
+	or (load and function (s) return assert(load(s))() end)
 local date = date or os.date
 
 htk = require"htk" -- global para ser visível pelo código gerado dinamicamente
@@ -174,6 +176,7 @@ particularities: all pre-defined form-field values are set with ]],
 		".",
 		"Older versions can be downloaded too:",
 		htk.UL {
+			htk.LI { htk.A { href = "htk-3.3.2.lua", "HTK 3.3.2", }, },
 			htk.LI { htk.A { href = "htk-3.3.1.lua", "HTK 3.3.1", }, },
 			htk.LI { htk.A { href = "htk-3.3.0.lua", "HTK 3.3.0", }, },
 			htk.LI { htk.A { href = "htk-3.2.0.lua", "HTK 3.2.0", }, },
@@ -354,6 +357,7 @@ and the third with the rendered HTML code.]],
 		-- News
 		htk.H2 { htk.A { name = "news", "News", }, },
 		htk.UL {
+			htk.LI { "3.4 [4/mar/2013] ", "Specification clean up: SELECT, RADIO and TOGGLE_LIST default values must be specified values (in other words, one cannot pre-select an item by its position on the list anymore)", },
 			htk.LI { "3.3.2 [20/feb/2013] ", "Bug fix: selected/checked items of SELECT, RADIO and TOGGLE_LIST were not correctly marked", htk.BR{}, "Add more SELECT examples", htk.BR{}, "Minor improvements on documentation (in this file).", },
 			htk.LI { "3.3.1 [8/feb/2013] ", "Bug fix: selected similar values were intermixed.", },
 			htk.LI { "3.3.0 [20/dec/2011] ", "New version updated to run for all Lua 5.X versions.", },
