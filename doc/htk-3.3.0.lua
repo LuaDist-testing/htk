@@ -5,7 +5,7 @@
 -- but with "Lua style".
 -- This version does not require HTMLToolkit.
 -- It does require Lua 5.
--- @release $Id: htk-3.3.1.lua,v 1.1 2013/02/08 01:41:45 tomas Exp $
+-- @release $Id: htk-3.3.0.lua,v 1.1 2011-12-20 15:26:17 tomas Exp $
 -----------------------------------------------------------------------------
 
 -- Internal structure.
@@ -51,9 +51,9 @@ local tinsert, tremove = table.insert, table.remove
 
 
 local _M = {
-	_COPYRIGHT = "Copyright (C) 2010-2013 PUC-Rio",
+	_COPYRIGHT = "Copyright (C) 2010-2011 PUC-Rio",
 	_DESCRIPTION = "HTK is a library of Lua constructors that create HTML elements.",
-	_VERSION = "HTK 3.3.1",
+	_VERSION = "HTK 3.3.0",
 }
 
 _M.class_defaults = {}
@@ -343,13 +343,6 @@ end
 -- CONTAINERS
 -- Constructors that creates some abstractions or encapsulation:
 
-local function findnum (str, num)
-	num = tostring(num)
-	local ok = false
-	str:gsub ("(%d+)", function (n) if n==num then ok = true end end)
-	return ok
-end
-
 -- @param param Table with object description.
 -- @param element String with the name of the HTML element.
 -- @return String with the HTML representation of the element.
@@ -366,9 +359,8 @@ local function button_list (param, element)
 			if not list[i].value then
 				list[i].value = list[i][1]
 			end
-			--if param.value and strfind (param.value..',',  list[i].value, 1, 1) then
-			if param.value and findnum (param.value, list[i].value) then
-				list[i].checked = true
+			if param.value and strfind (param.value..',',  list[i].value, 1, 1) then
+				list[i].checked = 1
 			end
 			param[i] = _M.BOX {
 				_M[element] (list[i]),
@@ -413,29 +405,27 @@ function _M.TOGGLE_LIST (param)
 	return button_list (param, "TOGGLE")
 end
 
---
+-----------------------------------------------------------------------------
 local function equal (str, sub)
 	return str == sub
 end
 
---
+-----------------------------------------------------------------------------
 local function check_selected (param, i)
 	local list = param.options or {}
 	local is_table = type(list[i]) == "table"
-	local find
-	if param.multiple then
-		find = findnum
-	else
-		find = equal
+	local strfind = strfind
+	if not param.multiple then
+		strfind = equal
 	end
 	if (is_table and list[i].selected) or
-		(type(list.selected)=="string" and find (list.selected, i)) or
+		(type(list.selected)=="string" and strfind (list.selected..',', i..',', 1, 1)) or
 		(param.value and is_table and (
-			(find (param.value, list[i].value)) or
-			(find (param.value, list[i][1]))
+			(strfind (param.value..',', list[i].value..',', 1, 1)) or
+			(strfind (param.value..',', list[i][1]..',', 1, 1))
 		)) or
 		param.value == i or param.value == list[i] then
-		return true
+		return 1
 	else
 		return nil
 	end
